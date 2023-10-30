@@ -14,6 +14,8 @@ class Queue:
     An implementation of the queue data structure.
     """
 
+
+
     def __init__(self) :
         """
         Default constructor.
@@ -22,6 +24,63 @@ class Queue:
         self.root = None
         self.tail = None
         self.length = 0
+
+
+    def __len__(self):
+        return self.length
+
+    def __contains__(self,item):
+
+
+        currentNode = self.root
+
+        for i in range(self.length):
+            if(currentNode.value == item) : return True
+            currentNode = currentNode.next
+
+        return False
+    
+    def __getitem__(self,key):
+        if(not isinstance(key,int)):
+            raise Exception("Index must be an integer")
+
+        if(key >= self.length):
+            raise Exception("Index out of bounds exception")
+        
+        currentNode = self.root
+
+        for i in range(key):
+            currentNode = currentNode.next
+        return currentNode.value
+    
+    def __setitem__(self,key,value):
+        if(not isinstance(key,int)):
+            raise Exception("Index must be an integer")
+
+        if(key >= self.length):
+            raise Exception("Index out of bounds exception")
+        
+        currentNode = self.root
+
+        for i in range(key):
+            currentNode = currentNode.next
+
+        currentNode.value = value
+        return
+    
+    def __iter__(self):
+        self.a = self.root
+        return self
+    
+    def __next__(self):
+            x = self.a
+            if(x.next == self.tail):
+                raise StopIteration
+            self.a = x.next
+            return x
+
+            
+        
 
     def add(self,value):
         """
@@ -137,7 +196,7 @@ queue.add(5)
 queue.add(4)
 queue.add(2)
 
-print("List length:"+str(queue.length))
+print("List length:"+str(len(queue)))
 
 print("List root:"+str(queue.root.value))
 
@@ -149,11 +208,22 @@ print("root - prev:"+str(queue.root.prev.value))
 
 print("List printed:"+queue.printString())
 
-print(queue.get(2))
+print(queue[2])
+
+queue[0] = 0
+
+print(queue.printString())
 
 print(queue.pop())
 
 print(queue.printString())
 
 print(str(queue.popAll()))
+
+print(5 in queue)
+print(2 in queue)
+print(0 in queue)
+
+for x in queue:
+    print(str(x.value)+" Y ")
 
